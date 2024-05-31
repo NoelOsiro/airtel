@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Checkbox from '@mui/material/Checkbox';
@@ -15,8 +14,9 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import dayjs from 'dayjs';
-
 import { useSelection } from '@/hooks/use-selection';
+import type { CustomerType } from '@/types/customer';
+
 
 function noop(): void {
   // do nothing
@@ -35,7 +35,7 @@ export interface Customer {
 interface CustomersTableProps {
   count?: number;
   page?: number;
-  rows?: Customer[];
+  rows?: CustomerType[] | [];
   rowsPerPage?: number;
 }
 
@@ -48,12 +48,13 @@ export function CustomersTable({
   const rowIds = React.useMemo(() => {
     return rows.map((customer) => customer.id);
   }, [rows]);
+  console.log(rows)
 
   const { selectAll, deselectAll, selectOne, deselectOne, selected } = useSelection(rowIds);
 
   const selectedSome = (selected?.size ?? 0) > 0 && (selected?.size ?? 0) < rows.length;
   const selectedAll = rows.length > 0 && selected?.size === rows.length;
-
+  
   return (
     <Card>
       <Box sx={{ overflowX: 'auto' }}>
@@ -78,6 +79,7 @@ export function CustomersTable({
               <TableCell>Location</TableCell>
               <TableCell>Phone</TableCell>
               <TableCell>Signed Up</TableCell>
+              <TableCell>Expiry</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -100,16 +102,16 @@ export function CustomersTable({
                   </TableCell>
                   <TableCell>
                     <Stack sx={{ alignItems: 'center' }} direction="row" spacing={2}>
-                      <Avatar src={row.avatar} />
                       <Typography variant="subtitle2">{row.name}</Typography>
                     </Stack>
                   </TableCell>
                   <TableCell>{row.email}</TableCell>
                   <TableCell>
-                    {row.address.city}, {row.address.state}, {row.address.country}
+                    {row.address.city}, {row.address.location}, Kenya
                   </TableCell>
                   <TableCell>{row.phone}</TableCell>
-                  <TableCell>{dayjs(row.createdAt).format('MMM D, YYYY')}</TableCell>
+                  <TableCell>{dayjs(row.date_of_sub).format('MMM D, YYYY')}</TableCell>
+                  <TableCell>{dayjs(row.expiry_date).format('MMM D, YYYY')}</TableCell>
                 </TableRow>
               );
             })}

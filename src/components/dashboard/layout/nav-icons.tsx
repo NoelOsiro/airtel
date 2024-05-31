@@ -3,11 +3,10 @@ import { ChartPie as ChartPieIcon } from '@phosphor-icons/react/dist/ssr/ChartPi
 import { GearSix as GearSixIcon } from '@phosphor-icons/react/dist/ssr/GearSix';
 import { PlugsConnected as PlugsConnectedIcon } from '@phosphor-icons/react/dist/ssr/PlugsConnected';
 import { User as UserIcon } from '@phosphor-icons/react/dist/ssr/User';
-import { Users as UsersIcon } from '@phosphor-icons/react/dist/ssr/Users';
+import { UsersThree as UsersThreeIcon, TreeStructure as TreeStructureIcon } from '@phosphor-icons/react/dist/ssr';
 import { XSquare } from '@phosphor-icons/react/dist/ssr/XSquare';
 import { Vault as VaultIcon } from '@phosphor-icons/react/dist/ssr/Vault';
 import { MapPin as MapPinIcon } from '@phosphor-icons/react/dist/ssr/MapPin';
-import { TreeStructure as TreeStructureIcon } from '@phosphor-icons/react/dist/ssr';
 
 export const navIcons = {
   'chart-pie': ChartPieIcon,
@@ -18,5 +17,5 @@ export const navIcons = {
   treeStructure: TreeStructureIcon,
   mappin: MapPinIcon,
   user: UserIcon,
-  users: UsersIcon,
+  users: UsersThreeIcon,
 } as Record<string, Icon>;

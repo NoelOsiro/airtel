@@ -60,12 +60,17 @@ module.exports = {
     '@typescript-eslint/dot-notation': 'off', // paths are used with a dot notation
     '@typescript-eslint/no-misused-promises': 'off', // onClick with async fails
     '@typescript-eslint/no-non-null-assertion': 'off', // sometimes compiler is unable to detect
+    '@typescript-eslint/no-unsafe-assignment': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-unnecessary-condition': 'off', // remove when no static data is used
     '@typescript-eslint/require-await': 'off', // Server Actions require async flag always
     '@typescript-eslint/prefer-nullish-coalescing': 'off', // personal style
     'import/no-default-export': 'off', // Next.js components must be exported as default
     'import/no-extraneous-dependencies': 'off', // conflict with sort-imports plugin
     'import/order': 'off', // using custom sort plugin
+    'no-console': 'off',
+    'camelcase': 'off', // personal style
     'no-nested-ternary': 'off', // personal style
     'no-redeclare': 'off', // conflict with TypeScript function overloads
     'react/jsx-fragments': 'off', // personal style
