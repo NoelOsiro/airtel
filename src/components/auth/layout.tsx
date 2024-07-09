@@ -24,7 +24,7 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
       <Box sx={{ display: 'flex', flex: '1 1 auto', flexDirection: 'column' }}>
         <Box sx={{ p: 3 }}>
           <Box component={RouterLink} href={paths.home} sx={{ display: 'inline-block', fontSize: 0 }}>
-            <DynamicLogo colorDark="light" colorLight="dark" height={62} width={162} />
+            <DynamicLogo colorDark="light" colorLight="dark" height={100} width={162} />
           </Box>
         </Box>
         <Box sx={{ alignItems: 'center', display: 'flex', flex: '1 1 auto', justifyContent: 'center', p: 3 }}>
@@ -46,18 +46,18 @@ export function Layout({ children }: LayoutProps): React.JSX.Element {
             <Typography color="inherit" sx={{ fontSize: '24px', lineHeight: '32px', textAlign: 'center' }} variant="h1">
               Welcome to{' '}
               <Box component="span" sx={{ color: '#15b79e' }}>
-                Cownchory
+                Airtel Q3m Wanda Solutions
               </Box>
             </Typography>
             <Typography align="center" variant="subtitle1">
-              The ultimate tool for ranch management.
+              Customer Management Portal.
             </Typography>
           </Stack>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Box
               component="img"
               alt="Widgets"
-              src="/assets/auth-widgets.jpg"
+              src="/assets/logo.png"
               sx={{ height: 'auto', width: '100%', maxWidth: '600px' }}
             />
           </Box>
