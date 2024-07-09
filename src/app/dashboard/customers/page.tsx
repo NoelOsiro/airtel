@@ -4,8 +4,6 @@ import type { Metadata } from 'next';
 import Stack from '@mui/material/Stack';
 import Grid from '@mui/material/Unstable_Grid2';
 
-
-// Importing local components and utilities
 import { config } from '@/config';
 import { CustomersFilters } from '@/components/dashboard/customer/customers-filters';
 import { CustomersTable } from '@/components/dashboard/customer/customers-table';
@@ -30,10 +28,8 @@ export default async function Page({searchParams}: PageProps): Promise<React.JSX
 
     // Determine if modal should be shown based on search parameters
   const showModal = searchParams? checkShowModal(searchParams) : false;
-
     // Fetch total customers
   const value = await getTotalCustomers();
-
     // Render the page
   return (
     <Grid container spacing={3}>
@@ -65,7 +61,8 @@ export default async function Page({searchParams}: PageProps): Promise<React.JSX
         <Traffic chartSeries={[15, 22]} labels={['Subscribed', 'Sleeping']} sx={{ height: '100%' }} />
       </Grid>
 
-      {showModal ? <CustomersModal open={showModal} /> : null}
+      {showModal ? <CustomersModal open={showModal} close={() => {null}} /> : null}
+
       
       
     </Grid>

@@ -1,10 +1,9 @@
-// CustomerForm.tsx
 import * as React from 'react';
-import { useFormik, type FormikProps } from 'formik';
+import { useFormik, type FormikHelpers } from 'formik';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import { type FormValues } from '@/types/FormValue';
+import { type FormValues } from '@/types/FormValue'; // Assuming FormValues is correctly imported
 import { validationSchema } from '@/utils/helper/ValidationSchema';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
@@ -12,25 +11,32 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 import InputLabel from '@mui/material/InputLabel';
+import dayjs from 'dayjs';
 
 interface CustomerFormProps {
     onSubmit: (values: FormValues) => void;
+    close: () => void; // Function to close the modal
 }
 
-export function CustomerForm({ onSubmit }: CustomerFormProps): React.JSX.Element {
-    const formik: FormikProps<FormValues> = useFormik<FormValues>({
+export function CustomerForm({ onSubmit, close }: CustomerFormProps): React.ReactElement {
+    const formik = useFormik<FormValues>({
         initialValues: {
             name: '',
-            phone: '',
+            phone_no: '',
             email: '',
-            city: '',
-            package: '',
-            subscription_date: null,
-            expiry: '',
-            router: '',
+            address: '',
+            package: '3500', // Default package value, assuming it's a string
+            subscription_date: dayjs().toDate(), // Default to current date
+            expiry_date: dayjs().toDate(),
         },
         validationSchema,
-        onSubmit,
+        onSubmit: (values: FormValues, helpers: FormikHelpers<FormValues>) => {
+            const subscription_date = dayjs(values.subscription_date);
+            const expiry_date = subscription_date.add(30, 'day').toDate();
+            const updatedValues = { ...values, expiry_date };
+            onSubmit(updatedValues);
+            helpers.setSubmitting(false);
+        },
     });
 
     return (
@@ -45,20 +51,20 @@ export function CustomerForm({ onSubmit }: CustomerFormProps): React.JSX.Element
                             label="Name"
                             value={formik.values.name}
                             onChange={formik.handleChange}
-                            error={formik.touched.name ? Boolean(formik.errors.name) : undefined}
-                            helperText={formik.touched.name ? formik.errors.name : null}
+                            error={Boolean(formik.touched.name && formik.errors.name)}
+                            helperText={formik.touched.name ? formik.errors.name : ''}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            id="phone"
-                            name="phone"
+                            id="phone_no"
+                            name="phone_no"
                             label="Phone"
-                            value={formik.values.phone}
+                            value={formik.values.phone_no}
                             onChange={formik.handleChange}
-                            error={formik.touched.phone ? Boolean(formik.errors.phone) : undefined}
-                            helperText={formik.touched.phone ? formik.errors.phone : null}
+                            error={Boolean(formik.touched.phone_no && formik.errors.phone_no)}
+                            helperText={formik.touched.phone_no ? formik.errors.phone_no : ''}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -69,20 +75,51 @@ export function CustomerForm({ onSubmit }: CustomerFormProps): React.JSX.Element
                             label="Email"
                             value={formik.values.email}
                             onChange={formik.handleChange}
-                            error={formik.touched.email ? Boolean(formik.errors.email) : undefined}
-                            helperText={formik.touched.email ? formik.errors.email : null}
+                            error={Boolean(formik.touched.email && formik.errors.email)}
+                            helperText={formik.touched.email ? formik.errors.email : ''}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             fullWidth
-                            id="city"
-                            name="city"
-                            label="City"
-                            value={formik.values.city}
+                            id="address"
+                            name="address"
+                            label="Address"
+                            value={formik.values.address}
                             onChange={formik.handleChange}
-                            error={formik.touched.city ? Boolean(formik.errors.city) : undefined}
-                            helperText={formik.touched.city ? formik.errors.city : null}
+                            error={Boolean(formik.touched.address && formik.errors.address)}
+                            helperText={formik.touched.address ? formik.errors.address : ''}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            id="subscription_date"
+                            name="subscription_date"
+                            label="Subscription Date"
+                            type="date"
+                            value={dayjs(formik.values.subscription_date).format('YYYY-MM-DD')}
+                            onChange={formik.handleChange}
+                            error={Boolean(formik.touched.subscription_date && formik.errors.subscription_date)}
+                            helperText={formik.touched.subscription_date ? formik.errors.subscription_date : ''}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField
+                            fullWidth
+                            id="expiry_date"
+                            name="expiry_date"
+                            label="Expiry Date"
+                            value={dayjs(formik.values.expiry_date).format('YYYY-MM-DD')}
+                            InputProps={{
+                                readOnly: true,
+                            }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -94,37 +131,22 @@ export function CustomerForm({ onSubmit }: CustomerFormProps): React.JSX.Element
                             name="package"
                             value={formik.values.package}
                             onChange={formik.handleChange}
-                            error={formik.touched.package ? Boolean(formik.errors.package) : undefined}
+                            error={Boolean(formik.touched.package && formik.errors.package)}
                         >
                             <MenuItem value="3500">3,500</MenuItem>
                             <MenuItem value="5500">5,500</MenuItem>
                             <MenuItem value="7500">7,500</MenuItem>
                         </Select>
-                        {formik.touched.package && formik.errors.package ? (
-                            <FormHelperText error>{formik.errors.package}</FormHelperText>
-                        ) : null}
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            fullWidth
-                            id="subscription_date"
-                            name="subscription_date"
-                            label="Subscription Date"
-                            type="date"
-                            value={formik.values.subscription_date ? formik.values.subscription_date.toISOString().split('T')[0] : ''}
-                            onChange={(event) => formik.setFieldValue('subscription_date', event.target.value ? new Date(event.target.value) : null)}
-                            error={formik.touched.subscription_date ? Boolean(formik.errors.subscription_date) : undefined}
-                            helperText={formik.touched.subscription_date ? formik.errors.subscription_date : null}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
+                        {formik.touched.package && formik.errors.package ? <FormHelperText error>{formik.errors.package}</FormHelperText> : null}
                     </Grid>
                 </Grid>
             </DialogContent>
             <DialogActions>
                 <Button onClick={close}>Cancel</Button>
-                <Button type="submit" disabled={!formik.isValid}>Select Router</Button>        </DialogActions>
+                <Button type="submit" disabled={!formik.isValid || formik.isSubmitting}>
+                    Select Router
+                </Button>
+            </DialogActions>
         </form>
     );
 }

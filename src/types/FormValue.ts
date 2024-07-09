@@ -1,11 +1,11 @@
 // FormValues.ts
 export interface FormValues {
     name: string;
-    phone: string;
+    phone_no: string;
     email: string;
-    city: string;
+    address: string;
     package: string;
     subscription_date: Date | null;
-    expiry: string;
-    router: string;
+    expiry_date: Date | null;
+    router?: string;
   }

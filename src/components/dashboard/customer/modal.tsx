@@ -9,20 +9,20 @@ import dayjs from 'dayjs';
 
 interface ModalProps {
   open: boolean;
-  close?: () => void;
+  close: () => void;
 }
 
 export function CustomersModal({ open, close }: ModalProps): React.JSX.Element {
   const [isCustomerFormSubmitted, setCustomerFormSubmitted] = React.useState(false);
   const [values, setValues] = React.useState<FormValues>({
     name: '',
-    phone: '',
+    phone_no: '',
     email: '',
-    city: '',
+    address: '',
     package: '',
-    subscription_date: null,
-    expiry: '',
-    router: '',
+    subscription_date: new Date(), // Default to current date
+    expiry_date: dayjs().add(30, 'day').toDate(),
+    router:''
   });
 
   const handleCustomerSubmit = (data: FormValues) => {
@@ -57,7 +57,7 @@ export function CustomersModal({ open, close }: ModalProps): React.JSX.Element {
     <Dialog open={open} fullWidth maxWidth="sm">
       <DialogTitle>Add Customer</DialogTitle>
       {!isCustomerFormSubmitted ? (
-        <CustomerForm onSubmit={handleCustomerSubmit} />
+        <CustomerForm onSubmit={handleCustomerSubmit} close={close} />
       ) : (
         <RouterForm onSubmit={handleRouterSubmit} values={values} />
       )}

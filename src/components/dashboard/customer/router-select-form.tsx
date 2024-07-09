@@ -30,9 +30,9 @@ export function RouterForm({ onSubmit, values }: RouterFormProps): React.JSX.Ele
 
     const handleSearch = async () => {
         // Perform the search and update the searchResult state variable
-        // fetch /api/routers?search=${formik.values.router}
+        const routerValue = formik.values.router ?? '';
         try {
-            const response = await fetch(`/api/searchRouter?search=${formik.values.router}`, {
+            const response = await fetch(`/api/searchRouter?search=${routerValue}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

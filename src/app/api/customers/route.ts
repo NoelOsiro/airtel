@@ -1,47 +1,48 @@
 import { createClient } from "@/utils/supabase/sever";
-
+import { NextRequest, NextResponse } from 'next/server';
 
 export const GET = async () => {
   const supabase = createClient();
 
   try {
-    const { data, error } = await supabase.from('customers').select(`
+    const { data, error } = await supabase.from('Customers').select(`
       id,
       created_at,
+      updated_at,
       name,
-      phone,
+      phone_no,
       email,
-      city,
-      town,
+      address,
       package,
       subscription_date,
-      expiry,
-      routers (
-        id,
-        router_mobile_no,
-        account_no,
-        serial_no
-      )
+      expiry_date,
+      Routers(*)
     `);
+    
     if (error) {
-        console.log(error)
-        
-        return Response.json({ error: 'Internal server error' },{status:500});
+      throw new Error('Failed to fetch data from database');
     }
-    return Response.json(data,{status: 200});
+    
+    return NextResponse.json({ data }, { status: 200 });
   } catch (error) {
-    console.error('Error fetching data:', error);
-    return Response.json({ error: 'Internal server error' },{status:500});
+    return NextResponse.json({ message: 'Failed to fetch customers' }, { status: 500 });
   }
 };
 
-export const POST = async (request:Request) => {
+
+export const POST = async (request: NextRequest) => {
   const supabase = createClient();
   const data = await request.json();
-  const { data: customerData, error } = await supabase.from('customers').insert(data);
-  if (error) {
-    console.log(error)
-    return Response.json({ error: 'Internal server error' },{status:500});
+
+  try {
+    const { data: customerData, error } = await supabase.from('customers').insert(data);
+
+    if (error) {
+      throw new Error('Failed to insert data into database');
+    }
+
+    return NextResponse.json({ customerData }, { status: 200 }); // Return data object
+  } catch (error) {
+    return NextResponse.json({ message: 'Failed to fetch customers' }, { status: 500 });
   }
-  return Response.json(customerData,{status: 200});
-}
+};

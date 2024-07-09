@@ -3,7 +3,7 @@ import { createClient } from '@/utils/supabase/sever';
 export const getTotalCustomers = async () => {
     const supabase = createClient();
     const { count, error } = await supabase
-      .from('customers')
+      .from('Customers')
       .select('*', { count: 'exact' });
     if (error) {
       return 0;
