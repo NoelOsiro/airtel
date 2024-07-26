@@ -107,7 +107,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "Sales", route: "/sales" },
-          { label: "Team", route: "/forms/form-layout" },
+          { label: "Team", route: "/teams" },
         ],
       },
       {
