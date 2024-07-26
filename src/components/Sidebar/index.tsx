@@ -141,8 +141,8 @@ const menuGroups = [
         label: "Inventory",
         route: "#",
         children: [
-          { label: "Routers", route: "/tables" },
-          { label: "Phones", route: "/tables" },
+          { label: "Routers", route: "/routers" },
+          { label: "Phones", route: "/phones" },
         ],
       },
       {
