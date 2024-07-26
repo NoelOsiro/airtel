@@ -1,13 +1,27 @@
 "use client";
-import React, { useState, ReactNode } from "react";
+import React, { useState, ReactNode, useEffect } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export default function DefaultLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const supabase = createClient();
+  useEffect(() => {
+    const checkUser = async () => {
+      const { error } = await supabase.auth.getUser();
+      if (error) {
+        router.push("/auth/signin");
+      }
+    };
+
+    checkUser();
+  }, [router, supabase]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <>
