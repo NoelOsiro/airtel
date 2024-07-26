@@ -1,153 +1,51 @@
 'use client';
 
 import * as React from 'react';
-import RouterLink from 'next/link';
 import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import Alert from '@mui/material/Alert';
-import Button from '@mui/material/Button';
-import FormControl from '@mui/material/FormControl';
-import FormHelperText from '@mui/material/FormHelperText';
-import InputLabel from '@mui/material/InputLabel';
-import Link from '@mui/material/Link';
-import OutlinedInput from '@mui/material/OutlinedInput';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { Eye as EyeIcon } from '@phosphor-icons/react/dist/ssr/Eye';
-import { EyeSlash as EyeSlashIcon } from '@phosphor-icons/react/dist/ssr/EyeSlash';
-import { Controller, useForm } from 'react-hook-form';
-import { z as zod } from 'zod';
+import Button from '@mui/material/Button';
+import { signInWithPopup } from 'firebase/auth';
 
-import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
-import { useUser } from '@/hooks/use-user';
 
-const schema = zod.object({
-  email: zod.string().min(1, { message: 'Email is required' }).email(),
-  password: zod.string().min(1, { message: 'Password is required' }),
-});
-
-type Values = zod.infer<typeof schema>;
-
-const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
+const GoogleIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px">
+    <path fill="#4285F4" d="M24 9.5c3.03 0 5.67 1.14 7.73 3.02L37.94 6C33.94 2.29 29.16 0 24 0 14.58 0 6.94 6.26 3.68 15h10.32v5H3.68C6.94 33.74 14.58 40 24 40c5.16 0 9.94-2.29 13.94-6.5L31.73 35.48C29.67 37.36 27.03 38.5 24 38.5 17.3 38.5 11.64 34.26 9.5 28H0v5h9.5c1.15 3.92 4.2 7.11 8 9.02 3.8 1.91 8.3 3.48 12.97 3.48 12.97 0 23.53-11.19 23.53-25 0-1.65-.22-3.25-.62-4.75H24v9.5h15.38c-.3 1.65-1.03 3.16-2.06 4.5z"/>
+  </svg>
+);
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
 
-  const { checkSession } = useUser();
-
-  const [showPassword, setShowPassword] = React.useState<boolean>();
-
-  const [isPending, setIsPending] = React.useState<boolean>(false);
-
-  const {
-    control,
-    handleSubmit,
-    setError,
-    formState: { errors },
-  } = useForm<Values>({ defaultValues, resolver: zodResolver(schema) });
-
-  const onSubmit = React.useCallback(
-    async (values: Values): Promise<void> => {
-      setIsPending(true);
-
-      const { error } = await authClient.signInWithPassword(values);
-
-      if (error) {
-        setError('root', { type: 'server', message: error });
-        setIsPending(false);
-        return;
-      }
-
-      // Refresh the auth state
-      await checkSession?.();
-
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
-    },
-    [checkSession, router, setError]
-  );
+  const handleGoogleSignIn = async () => {
+    await signInWithGoogle();
+    router.push('/dashboard'); // Redirect to the dashboard or any other route after sign-in
+  };
 
   return (
     <Stack spacing={4}>
       <Stack spacing={1}>
-        <Typography variant="h4">Sign in</Typography>
-        <Typography color="text.secondary" variant="body2">
-          Don&apos;t have an account?{' '}
-          <Link component={RouterLink} href={paths.auth.signUp} underline="hover" variant="subtitle2">
-            Sign up
-          </Link>
-        </Typography>
+        <Typography variant="h4">Sign in</Typography>    
       </Stack>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.email)}>
-                <InputLabel>Email address</InputLabel>
-                <OutlinedInput {...field} label="Email address" type="email" />
-                {errors.email ? <FormHelperText>{errors.email.message}</FormHelperText> : null}
-              </FormControl>
-            )}
-          />
-          <Controller
-            control={control}
-            name="password"
-            render={({ field }) => (
-              <FormControl error={Boolean(errors.password)}>
-                <InputLabel>Password</InputLabel>
-                <OutlinedInput
-                  {...field}
-                  endAdornment={
-                    showPassword ? (
-                      <EyeIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(false);
-                        }}
-                      />
-                    ) : (
-                      <EyeSlashIcon
-                        cursor="pointer"
-                        fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(true);
-                        }}
-                      />
-                    )
-                  }
-                  label="Password"
-                  type={showPassword ? 'text' : 'password'}
-                />
-                {errors.password ? <FormHelperText>{errors.password.message}</FormHelperText> : null}
-              </FormControl>
-            )}
-          />
-          <div>
-            <Link component={RouterLink} href={paths.auth.resetPassword} variant="subtitle2">
-              Forgot password?
-            </Link>
-          </div>
-          {errors.root ? <Alert color="error">{errors.root.message}</Alert> : null}
-          <Button disabled={isPending} type="submit" variant="contained">
-            Sign in
-          </Button>
-        </Stack>
-      </form>
-      {/* <Alert color="warning">
-        Use{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          sofia@devias.io
-        </Typography>{' '}
-        with password{' '}
-        <Typography component="span" sx={{ fontWeight: 700 }} variant="inherit">
-          Secret1
-        </Typography>
-      </Alert> */}
+      
+      <Button 
+        variant="contained" 
+        startIcon={<GoogleIcon />} 
+        onClick={handleGoogleSignIn}
+      >
+        Sign in with Google
+      </Button>
     </Stack>
   );
 }
+
+
+
+const signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    // Handle sign-in result (result.user contains user info)
+  } catch (error) {
+    console.error('Error signing in with Google: ', error);
+  }
+};
