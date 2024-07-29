@@ -19,7 +19,7 @@ const TablesPage = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Agents" />
       <div className="flex flex-col gap-9">
-        <SalesTable />
+        {/* <SalesTable /> */}
       </div>
       <div className="grid grid-cols-1 gap-9 sm:grid-cols-2 mt-9">
         <div className="flex flex-col gap-9">
