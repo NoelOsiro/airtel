@@ -1,48 +1,48 @@
 
 import { CUSTOMER } from "@/types/customer";
 
-const customerData: CUSTOMER[] = [
-  {
-    name: "Google",
-    phone: '0729732440',
-    accountNo: "5,768",
-    date: "2024-07-12",
-    package: '3,500',
-    email: 'osiroski@gmail.com'
-  },
-  {
-    name: "Twitter",
-    phone: '0729732440',
-    accountNo: "4,635",
-    date: "2024-07-12",
-    package: '3,500',
-    email: 'osiroski@gmail.com'
-  },
-  {
-    name: "Github",
-    phone: '0729732440',
-    accountNo: "4,290",
-    date: "2024-07-12",
-    package: '3,500',
-    email: 'osiroski@gmail.com'
-  },
-  {
-    name: "Vimeo",
-    phone: '0729732440',
-    accountNo: "3,580",
-    date: "2024-07-12",
-    package: '3,500',
-    email: 'osiroski@gmail.com'
-  },
-  {
-    name: "Facebook",
-    phone: '0729732440',
-    accountNo: "6,768",
-    date: "2024-07-12",
-    package: '3,500',
-    email: 'osiroski@gmail.com'
-  },
-];
+// const customerData: CUSTOMER[] = [
+//   {
+//     name: "Google",
+//     phone: '0729732440',
+//     accountNo: "5,768",
+//     date: "2024-07-12",
+//     package: '3,500',
+//     email: 'osiroski@gmail.com'
+//   },
+//   {
+//     name: "Twitter",
+//     phone: '0729732440',
+//     accountNo: "4,635",
+//     date: "2024-07-12",
+//     package: '3,500',
+//     email: 'osiroski@gmail.com'
+//   },
+//   {
+//     name: "Github",
+//     phone: '0729732440',
+//     accountNo: "4,290",
+//     date: "2024-07-12",
+//     package: '3,500',
+//     email: 'osiroski@gmail.com'
+//   },
+//   {
+//     name: "Vimeo",
+//     phone: '0729732440',
+//     accountNo: "3,580",
+//     date: "2024-07-12",
+//     package: '3,500',
+//     email: 'osiroski@gmail.com'
+//   },
+//   {
+//     name: "Facebook",
+//     phone: '0729732440',
+//     accountNo: "6,768",
+//     date: "2024-07-12",
+//     package: '3,500',
+//     email: 'osiroski@gmail.com'
+//   },
+// ];
 
 const SalesTable = () => {
   return (
@@ -80,37 +80,7 @@ const SalesTable = () => {
           </div>
         </div>
 
-        {customerData.map((customer, key) => (
-          <div
-            className={`grid grid-cols-3 sm:grid-cols-5 ${key === customerData.length - 1
-                ? ""
-                : "border-b border-stroke dark:border-strokedark"
-              }`}
-            key={key}
-          >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <p className="hidden text-black dark:text-white sm:block">
-                {customer.name}
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{customer.phone}</p>
-            </div>
-
-            <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{customer.accountNo}</p>
-            </div>
-
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">Ksh {customer.package}</p>
-            </div>
-
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{customer.date}</p>
-            </div>
-          </div>
-        ))}
+        
       </div>
     </div>
   );
