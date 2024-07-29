@@ -2,8 +2,6 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import CustomersTable from "@/components/Tables/CustomersTable";
-import AddCustomer from "../forms/AddCustomer";
 import RenewCustomer from "../forms/RenewCustomer";
 import SalesTable from "@/components/Tables/SalesTable";
 import AddSales from "../forms/AddSales";
