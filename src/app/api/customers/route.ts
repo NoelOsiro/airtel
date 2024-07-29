@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
           payment: rest.payment,
           activation_date: rest.activation_date,
         })
-        .match({ id });
+        .eq( 'id',id )
+        .select('*');
 
       if (error) {
         return NextResponse.json({ error: error.message }, { status: 400 });

@@ -18,17 +18,6 @@ const SignInForm: React.FC = () => {
     const router = useRouter();
     const supabase = createClient();
 
-    useEffect(() => {
-        const checkUser = async () => {
-            const { data } = await supabase.auth.getUser();
-            if (data) {
-                router.push("/");
-            }
-        };
-        
-        checkUser();
-    }, [router, supabase]);
-
 
     const formik = useFormik({
         initialValues: {
@@ -42,7 +31,7 @@ const SignInForm: React.FC = () => {
                 const { error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 toast.success("Successfully logged in!", { position: "top-center", autoClose: 3000 });
-                router.push("/dashboard");
+                router.push("/");
             } catch (error: any) {
                 toast.error(`Login error: ${error.message}`, { position: "top-center", autoClose: 3000 });
             }

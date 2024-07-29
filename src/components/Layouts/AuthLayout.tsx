@@ -1,5 +1,7 @@
 "use client";
-import React, { ReactNode } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
+import React, { ReactNode, useEffect } from "react";
 
 export default function AuthLayout({
   children,
