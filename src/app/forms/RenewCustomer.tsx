@@ -34,7 +34,7 @@ const RenewCustomer: React.FC = () => {
     // Mock search function to simulate finding a customer
     const mockSearchCustomer = async (searchTerm: string) => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
-        return { name: "John Doe", email: "john.doe@example.com", package: "Premium", phone: "1234567890", accountNo: "123456", date: "2024-07-12" };
+        return { name: "John Doe", email: "john.doe@example.com", location: "Malindi", phone: "1234567890", payment: true, activation_date: "2024-07-12" };
     };
 
     return (
@@ -82,7 +82,7 @@ const RenewCustomer: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4 mt-4">
                             <p className="text-black dark:text-white">Name: {customer.name}</p>
                             <p className="text-black dark:text-white">Email: {customer.email}</p>
-                            <p className="text-black dark:text-white">Package: {customer.package}</p>
+                            <p className="text-black dark:text-white">Location: {customer.location}</p>
                             <p className="text-black dark:text-white">Phone: {customer.phone}</p>
                         </div>
                         <button
