@@ -10,20 +10,21 @@ interface EditModalProps {
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
-  phone: Yup.string().required('Phone number is required'),
+  alternate_no: Yup.string().required('Phone number is required'),
   location: Yup.string().required('Location is required'),
   email: Yup.string().email('Invalid email address'),
-  payment: Yup.boolean(),
+  router_id: Yup.number().required('Required'),
   activation_date: Yup.date().required('Activation date is required').nullable(),
 });
 
 const EditModal = ({ customer, onClose, onSave }: EditModalProps) => {
   const formik = useFormik({
     initialValues: {
+      id: customer?.id || '',
       name: customer?.name || '',
-      phone: customer?.phone || '',
+      alternate_no: customer?.alternate_no || '',
       location: customer?.location || '',
-      payment: customer?.payment || false,
+      router_id: customer?.router_id || 0,
       activation_date: customer?.activation_date || '',
       email: customer?.email || '',
     },
@@ -43,9 +44,10 @@ const EditModal = ({ customer, onClose, onSave }: EditModalProps) => {
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
               <input
                 type="text"
+                id="name"
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
@@ -57,25 +59,27 @@ const EditModal = ({ customer, onClose, onSave }: EditModalProps) => {
               ) : null}
             </div>
             <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
+              <label htmlFor="alternate_no" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone</label>
               <input
                 type="text"
-                name="phone"
-                value={formik.values.phone}
+                id="alternate_no"
+                name="alternate_no"
+                value={formik.values.alternate_no}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`w-full mt-1 rounded border ${formik.touched.phone && formik.errors.phone ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
+                className={`w-full mt-1 rounded border ${formik.touched.alternate_no && formik.errors.alternate_no ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
               />
-              {formik.touched.phone && formik.errors.phone ? (
-                <div className="text-red-500 text-sm">{formik.errors.phone}</div>
+              {formik.touched.alternate_no && formik.errors.alternate_no ? (
+                <div className="text-red-500 text-sm">{formik.errors.alternate_no}</div>
               ) : null}
             </div>
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
             <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
               <input
                 type="email"
+                id="email"
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -87,9 +91,10 @@ const EditModal = ({ customer, onClose, onSave }: EditModalProps) => {
               ) : null}
             </div>
             <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
+              <label htmlFor="location" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Location</label>
               <input
                 type="text"
+                id="location"
                 name="location"
                 value={formik.values.location}
                 onChange={formik.handleChange}
@@ -102,19 +107,26 @@ const EditModal = ({ customer, onClose, onSave }: EditModalProps) => {
             </div>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment</label>
+            <label htmlFor="router_id" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account No</label>
             <input
-              type="checkbox"
-              name="payment"
-              checked={formik.values.payment}
+              type="number"
+              id="router_id"
+              name="router_id"
+              value={formik.values.router_id}
+              className={`w-full mt-1 rounded border ${formik.touched.router_id && formik.errors.router_id ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
               onChange={formik.handleChange}
-              className="mt-1"
+              onBlur={formik.handleBlur}             
             />
+            {formik.touched.router_id && formik.errors.router_id ? (
+                <div className="text-red-500 text-sm">{formik.errors.router_id}</div>
+              ) : null
+              }
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Activation Date</label>
+            <label htmlFor="activation_date" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Activation Date</label>
             <input
               type="date"
+              id="activation_date"
               name="activation_date"
               value={formik.values.activation_date}
               onChange={formik.handleChange}

@@ -12,9 +12,9 @@ export const metadata: Metadata = {
     "This is the Customers page of Q3M Wanda",
 };
 
-const TablesPage = async () => {
+const CustomersPage = async () => {
   const supabase = createClient();
-  const { data, error } = await supabase.from("Customers").select("*");
+  const { data, error } = await supabase.from("customers").select("*");
   if (error) {
     console.error(error);
   }
@@ -36,4 +36,4 @@ const TablesPage = async () => {
   );
 };
 
-export default TablesPage;
+export default CustomersPage;

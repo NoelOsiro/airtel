@@ -5,21 +5,19 @@ import * as Yup from 'yup';
 interface EditModalProps {
   router: ROUTER | null;
   onClose: () => void;
-  onSave: (updatedCustomer: ROUTER) => void;
+  onSave: (updatedRouter: ROUTER) => void;
 }
 
 const validationSchema = Yup.object({
-  odu_no: Yup.string().required('Required'),
-  package: Yup.string().required('Required is required'),
-  account_no: Yup.string().required('Required'),
+  odu_number: Yup.string().required('ODU number is required'),
+  account_number: Yup.string().required('Account number is required'),
 });
 
 const EditRouterModal = ({ router, onClose, onSave }: EditModalProps) => {
   const formik = useFormik({
     initialValues: {
-      odu_no: router?.odu_no || '',
-      package: router?.package || '',
-      account_no: router?.account_no || '',
+      odu_number: router?.odu_number || '',
+      account_number: router?.account_number || '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -33,54 +31,43 @@ const EditRouterModal = ({ router, onClose, onSave }: EditModalProps) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg p-6 shadow-lg dark:bg-gray-800">
-        <h3 className="text-xl font-semibold mb-4">Edit Customer</h3>
+        <h3 className="text-xl font-semibold mb-4">Edit Router</h3>
         <form onSubmit={formik.handleSubmit}>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-            <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
+            <div className="flex flex-col gap-4">
+              <label htmlFor='odu_number' className="block text-sm font-medium text-gray-700 dark:text-gray-300">ODU Number</label>
               <input
                 type="text"
-                name="odu_no"
-                value={formik.values.odu_no}
+                name="odu_number"
+                id="odu_number" // Ensure this matches
+                value={formik.values.odu_number}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`w-full mt-1 rounded border ${formik.touched.odu_no && formik.errors.odu_no ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
+                className={`w-full mt-1 rounded border ${formik.touched.odu_number && formik.errors.odu_number ? 'border-red-500' : 'border-gray-300'
+                  } dark:border-gray-600 p-2`}
               />
-              {formik.touched.odu_no && formik.errors.odu_no ? (
-                <div className="text-red-500 text-sm">{formik.errors.odu_no}</div>
-              ) : null}
-            </div>
-            <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Package</label>
-              <input
-                type="text"
-                name="package"
-                value={formik.values.package}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={`w-full mt-1 rounded border ${formik.touched.package && formik.errors.package ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
-              />
-              {formik.touched.package && formik.errors.package ? (
-                <div className="text-red-500 text-sm">{formik.errors.package}</div>
+              {formik.touched.odu_number && formik.errors.odu_number ? (
+                <div className="text-red-500 text-sm">{formik.errors.odu_number}</div>
               ) : null}
             </div>
           </div>
           <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-            <div className="flex flex-col gap-4 xl:w-1/2">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Number</label>
+            <div className="flex flex-col gap-4">
+              <label htmlFor='account_number' className="block text-sm font-medium text-gray-700 dark:text-gray-300">Account Number</label>
               <input
                 type="text"
-                name="account_no"
-                value={formik.values.account_no}
+                name="account_number"
+                id="account_number" // Ensure this matches
+                value={formik.values.account_number}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                className={`w-full mt-1 rounded border ${formik.touched.account_no && formik.errors.account_no ? 'border-red-500' : 'border-gray-300'} dark:border-gray-600 p-2`}
+                className={`w-full mt-1 rounded border ${formik.touched.account_number && formik.errors.account_number ? 'border-red-500' : 'border-gray-300'
+                  } dark:border-gray-600 p-2`}
               />
-              {formik.touched.account_no && formik.errors.account_no ? (
-                <div className="text-red-500 text-sm">{formik.errors.account_no}</div>
+              {formik.touched.account_number && formik.errors.account_number ? (
+                <div className="text-red-500 text-sm">{formik.errors.account_number}</div>
               ) : null}
             </div>
-            
           </div>
           <div className="flex justify-end gap-4">
             <button

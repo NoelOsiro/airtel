@@ -6,6 +6,7 @@ import CustomerRow from "./CustomerRow";
 import Pagination from "./Pagination";
 import SearchBar from "../FormElements/SearchBar";
 import EditModal from "./CustomersModal";
+import Loader from "../common/Loader";
 
 interface Props {
   customer: CUSTOMER[] | null;
@@ -20,7 +21,9 @@ const CustomersTable = (props: Props) => {
   if (!props.customer) {
     return (
       <div className="flex items-center justify-center w-full h-96">
-        <Image src="/loading.svg" alt="loading" width={50} height={50} />
+        <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 w-full">
+        <Loader />
+        </div>
       </div>
     );
   }
@@ -28,7 +31,7 @@ const CustomersTable = (props: Props) => {
   const filteredCustomers = props.customer.filter(
     (customer) =>
       customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      customer.phone.includes(searchQuery)
+      customer.alternate_no.includes(searchQuery)
   );
 
   const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
@@ -44,7 +47,7 @@ const CustomersTable = (props: Props) => {
 
   const handleSave = async (updatedCustomer: CUSTOMER) => {
     try {
-      const response = await fetch("/api/customers", {
+      const response = await fetch(`/api/customers/${updatedCustomer.id}?id=${updatedCustomer.id}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -74,7 +77,7 @@ const CustomersTable = (props: Props) => {
           <div className="p-2.5 xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Name</h5></div>
           <div className="p-2.5 text-center xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Phone</h5></div>
           <div className="p-2.5 text-center xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Location</h5></div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Payment</h5></div>
+          <div className="hidden p-2.5 text-center sm:block xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Account</h5></div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Activation Date</h5></div>
           <div className="p-2.5 xl:p-5"><h5 className="text-sm font-medium uppercase xsm:text-base">Actions</h5></div>
         </div>

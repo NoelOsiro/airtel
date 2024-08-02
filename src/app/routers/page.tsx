@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 const TablesPage = async () => {
   const supabase = createClient();
-  const { data, error } = await supabase.from("Routers").select("*");
+  const { data, error } = await supabase.from("routers").select("*");
   if (error) {
     console.error(error);
   }
