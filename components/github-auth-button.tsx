@@ -11,15 +11,15 @@ export default function GithubSignInButton() {
 
   return (
     <Button
-      className="w-full"
+      className="w-full py-4"
       variant="outline"
       type="button"
       onClick={() =>
-        signIn('github', { callbackUrl: callbackUrl ?? '/dashboard' })
+        signIn('google', { callbackUrl: callbackUrl ?? '/dashboard' })
       }
     >
-      <Icons.gitHub className="mr-2 h-4 w-4" />
-      Continue with Github
+      <Icons.google className="mr-2 h-8 w-8" />
+      Continue with Google
     </Button>
   );
 }
