@@ -1,26 +1,20 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { ProductForm } from '@/components/forms/product-form';
+import { RouterForm } from '@/components/forms/router-form';
 import PageContainer from '@/components/layout/page-container';
 import React from 'react';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'User', link: '/dashboard/user' },
-  { title: 'Create', link: '/dashboard/user/create' }
+  { title: 'Router', link: '/dashboard/store' },
+  { title: 'Create', link: '/dashboard/store/create' }
 ];
 export default function Page() {
   return (
     <PageContainer scrollable={true}>
       <div className="space-y-4">
         <Breadcrumbs items={breadcrumbItems} />
-        <ProductForm
-          categories={[
-            { _id: 'shirts', name: 'shirts' },
-            { _id: 'pants', name: 'pants' }
-          ]}
-          initialData={null}
-          key={null}
-        />
+        <RouterForm initialData={null} key={null} />
       </div>
     </PageContainer>
   );
