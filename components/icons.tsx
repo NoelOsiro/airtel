@@ -27,8 +27,9 @@ import {
   Twitter,
   User,
   User2Icon,
-  UserX2Icon,
-  X
+  X,
+  Store,
+  Users
 } from 'lucide-react';
 
 export type Icon = LucideIcon;
@@ -44,7 +45,7 @@ export const Icons = {
   chevronLeft: ChevronLeft,
   chevronRight: ChevronRight,
   trash: Trash,
-  employee: UserX2Icon,
+  employee: Users,
   post: FileText,
   page: File,
   media: Image,
@@ -60,6 +61,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  store: Store,
   google: ({ ...props }: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"

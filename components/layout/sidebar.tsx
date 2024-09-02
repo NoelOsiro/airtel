@@ -1,11 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { DashboardNav } from '@/components/dashboard-nav';
 import { navItems } from '@/constants/data';
 import { cn } from '@/lib/utils';
 import { ChevronLeft } from 'lucide-react';
 import { useSidebar } from '@/hooks/useSidebar';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type SidebarProps = {
   className?: string;
@@ -30,19 +31,15 @@ export default function Sidebar({ className }: SidebarProps) {
         <Link
           href={'https://github.com/Kiranism/next-shadcn-dashboard-starter'}
           target="_blank"
+          className="flex items-center justify-center"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="mr-2 h-6 w-6"
-          >
-            <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
-          </svg>
+          <Image
+            src="/q3m_logo.png"
+            alt="Logo"
+            className=" h-auto w-auto"
+            width={148}
+            height={48}
+          />
         </Link>
       </div>
       <ChevronLeft
