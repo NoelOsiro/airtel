@@ -30,6 +30,7 @@ export const CustomerClient: React.FC<ProductsClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
+      {/* @ts-ignore */}
       <DataTable searchKey="name" columns={columns} data={data} />
     </>
   );
