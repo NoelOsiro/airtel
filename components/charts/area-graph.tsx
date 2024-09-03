@@ -18,21 +18,21 @@ import {
   ChartTooltipContent
 } from '@/components/ui/chart';
 const chartData = [
-  { month: 'January', desktop: 186, mobile: 80 },
-  { month: 'February', desktop: 305, mobile: 200 },
-  { month: 'March', desktop: 237, mobile: 120 },
-  { month: 'April', desktop: 73, mobile: 190 },
-  { month: 'May', desktop: 209, mobile: 130 },
-  { month: 'June', desktop: 214, mobile: 140 }
+  { month: 'January', malindi: 186, kilifi: 80 },
+  { month: 'February', malindi: 305, kilifi: 200 },
+  { month: 'March', malindi: 237, kilifi: 120 },
+  { month: 'April', malindi: 73, kilifi: 190 },
+  { month: 'May', malindi: 209, kilifi: 130 },
+  { month: 'June', malindi: 214, kilifi: 140 }
 ];
 
 const chartConfig = {
-  desktop: {
-    label: 'Desktop',
+  malindi: {
+    label: 'Malindi',
     color: 'hsl(var(--chart-1))'
   },
-  mobile: {
-    label: 'Mobile',
+  kilifi: {
+    label: 'Kilifi',
     color: 'hsl(var(--chart-2))'
   }
 } satisfies ChartConfig;
@@ -41,9 +41,9 @@ export function AreaGraph() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Sales Distibution - Stacked</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing total sales for the last 6 months
         </CardDescription>
       </CardHeader>
       <CardContent>
