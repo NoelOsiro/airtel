@@ -70,12 +70,12 @@ export const RouterForm: React.FC<ProductFormProps> = ({ initialData }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.post(`${apiUrl}/edit-customer?id=${initialData.id}`, data);
+        await axios.post(`${apiUrl}/edit-router?id=${initialData.id}`, data);
       } else {
-        await axios.post(`${apiUrl}/create-customer`, data);
+        await axios.post(`${apiUrl}/create-router`, data);
       }
       router.refresh();
-      router.push(`/dashboard/routers`);
+      router.push(`/dashboard/store`);
       toast({
         variant: 'default', // Success message
         title: 'Success!',

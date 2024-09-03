@@ -13,8 +13,11 @@ const breadcrumbItems = [
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
+  const apiUrl =
+    `${process.env.NEXT_PUBLIC_API_URL}/staff?id=${id}` ||
+    `http://localhost:3000/api/staff?id=${id}`;
   const staffData: Employee[] = await axios
-    .get(`http://localhost:3000/api/staff?id=${id}`)
+    .get(apiUrl)
     .then((res) => res.data)
     .catch(() => null); // Handle errors if any
   return (

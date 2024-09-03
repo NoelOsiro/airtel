@@ -11,14 +11,7 @@ const breadcrumbItems = [
 
 export default async function page() {
   const supabase = createClient();
-  const { data: routers = [], error } = await supabase
-    .from('routers')
-    .select('*');
-
-  if (error) {
-    console.error('Error fetching routers:', error);
-    // Handle the error accordingly (e.g., show an error message to the user)
-  }
+  const { data: routers = [] } = await supabase.from('routers').select('*');
 
   return (
     <PageContainer>

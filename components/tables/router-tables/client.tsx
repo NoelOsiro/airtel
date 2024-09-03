@@ -30,6 +30,7 @@ export const RouterClient: React.FC<ProductsClientProps> = ({ data }) => {
         </Button>
       </div>
       <Separator />
+      {/* @ts-ignore */}
       <DataTable searchKey="imei" columns={columns} data={data} />
     </>
   );

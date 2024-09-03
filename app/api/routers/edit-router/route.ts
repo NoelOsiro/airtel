@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     const { data, error: getError } = await supabase
-      .from('customers')
+      .from('routers')
       .update({
         name,
         imei,
