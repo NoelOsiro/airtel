@@ -106,7 +106,7 @@ export const CustomerForm: React.FC<ProductFormProps> = ({
     try {
       setLoading(true);
       if (initialData) {
-        await axios.post(`${apiUrl}/edit-customer?${initialData.id}`, {
+        await axios.post(`${apiUrl}/edit-customer?id=${initialData.id}`, {
           ...data,
           packageName: data.package
         });
@@ -117,7 +117,7 @@ export const CustomerForm: React.FC<ProductFormProps> = ({
         });
       }
       router.refresh();
-      router.push(`/dashboard/customers`);
+      router.push(`/dashboard/customer`);
       toast({
         variant: 'default', // Success message
         title: 'Success!',

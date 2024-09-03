@@ -3,7 +3,7 @@ import * as z from 'zod';
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
@@ -18,29 +18,31 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/ui/heading';
 import { useToast } from '../ui/use-toast';
+import { Router } from '@/constants/data';
+import { AlertModal } from '../modal/alert-modal';
 
 const formSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'Product Name must be at least 3 characters' }),
   imei: z.string().length(15, { message: 'IMEI number must be 15 digits' }), // IMEI number with exact length of 15 digits
-  dateInStore: z
-    .string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/, {
-      message: 'Date in store must be in YYYY-MM-DD format'
-    }), // Date in store in YYYY-MM-DD format
+  dateInStore: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+    message: 'Date in store must be in YYYY-MM-DD format'
+  }), // Date in store in YYYY-MM-DD format
   sold: z.boolean().optional()
 });
 
 type ProductFormValues = z.infer<typeof formSchema>;
 
 interface ProductFormProps {
-  initialData: ProductFormValues | null;
+  initialData: Router | null;
 }
 
 export const RouterForm: React.FC<ProductFormProps> = ({ initialData }) => {
+  const params = useParams();
   const router = useRouter();
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const title = initialData ? 'Edit Router' : 'Add Router';
   const description = initialData ? 'Edit a Router.' : 'Add a new Router';
@@ -62,44 +64,56 @@ export const RouterForm: React.FC<ProductFormProps> = ({ initialData }) => {
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    const apiUrl =
+      `${process.env.NEXT_PUBLIC_API_URL}/routers` ||
+      'http://localhost:3000/api/routers';
     try {
       setLoading(true);
-
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        await axios.post(`${apiUrl}/edit-customer?id=${initialData.id}`, data);
       } else {
-        // Sending data to create a new router
-        const response = await axios.post(`/api/routers/create-router`, data);
-
-        // Show success message
-        toast({
-          variant: 'default',
-          title: 'Success!',
-          description: toastMessage
-        });
-
-        // Refresh the router and redirect
-        router.refresh();
-        router.push(`/dashboard/products`);
+        await axios.post(`${apiUrl}/create-customer`, data);
       }
-    } catch (error: any) {
-      // Determine the error message from the Axios error
-      const errorMessage =
-        error.response?.data?.error || 'There was a problem with your request.';
-
-      // Show error message
+      router.refresh();
+      router.push(`/dashboard/routers`);
       toast({
-        variant: 'destructive',
+        variant: 'default', // Success message
+        title: 'Success!',
+        description: toastMessage
+      });
+    } catch (error: any) {
+      toast({
+        variant: 'destructive', // Error message
         title: 'Uh oh! Something went wrong.',
-        description: errorMessage
+        description:
+          error?.response?.data?.message ||
+          'There was a problem with your request.'
       });
     } finally {
       setLoading(false);
     }
   };
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      //   await axios.delete(`/api/${params.storeId}/products/${params.productId}`);
+      router.refresh();
+      router.push(`/${params.storeId}/products`);
+    } catch (error: any) {
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
+  };
 
   return (
     <>
+      <AlertModal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        onConfirm={onDelete}
+        loading={loading}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
       </div>

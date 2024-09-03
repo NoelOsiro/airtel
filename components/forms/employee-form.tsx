@@ -24,8 +24,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import FileUpload from '../file-upload';
+// import FileUpload from '../file-upload';
 import { useToast } from '../ui/use-toast';
+import axios from 'axios';
+import { AlertModal } from '../modal/alert-modal';
 // const ImgSchema = z.object({
 //   fileName: z.string(),
 //   name: z.string(),
@@ -90,32 +92,35 @@ export const EmployeeForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    const apiUrl =
+      `${process.env.NEXT_PUBLIC_API_URL}/staff` ||
+      'http://localhost:3000/api/staff';
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        await axios.post(`${apiUrl}/edit-staff?id=${initialData.id}`, data);
       } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+        await axios.post(`${apiUrl}/create-staff`, data);
       }
       router.refresh();
-      router.push(`/dashboard/products`);
+      router.push(`/dashboard/employee`);
       toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+        variant: 'default', // Success message
+        title: 'Success!',
+        description: toastMessage
       });
     } catch (error: any) {
       toast({
-        variant: 'destructive',
+        variant: 'destructive', // Error message
         title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+        description:
+          error?.response?.data?.message ||
+          'There was a problem with your request.'
       });
     } finally {
       setLoading(false);
     }
   };
-
   const onDelete = async () => {
     try {
       setLoading(true);
@@ -133,12 +138,12 @@ export const EmployeeForm: React.FC<ProductFormProps> = ({
 
   return (
     <>
-      {/* <AlertModal
+      <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onDelete}
         loading={loading}
-      /> */}
+      />
       <div className="flex items-center justify-between">
         <Heading title={title} description={description} />
         {initialData && (
