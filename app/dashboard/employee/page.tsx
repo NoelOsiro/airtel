@@ -24,17 +24,15 @@ type paramsProps = {
 export default async function page({ searchParams }: paramsProps) {
   const page = Number(searchParams.page) || 1;
   const pageLimit = Number(searchParams.limit) || 10;
-  const country = searchParams.search || null;
-  const offset = (page - 1) * pageLimit;
+  const apiURL =
+    `${process.env.NEXT_PUBLIC_API_URL}/staff` ||
+    'http://localhost:3000/api/staff';
 
-  const res = await fetch(
-    `https://api.slingacademy.com/v1/sample-data/users?offset=${offset}&limit=${pageLimit}` +
-      (country ? `&search=${country}` : '')
-  );
+  const res = await fetch(apiURL);
   const employeeRes = await res.json();
-  const totalUsers = employeeRes.total_users; //1000
+  const totalUsers = employeeRes.length; //1000
   const pageCount = Math.ceil(totalUsers / pageLimit);
-  const employee: Employee[] = employeeRes.users;
+  const employee: Employee[] = employeeRes;
   return (
     <PageContainer>
       <div className="space-y-4">

@@ -8,6 +8,24 @@ export type User = {
   verified: boolean;
   status: string;
 };
+export type Router = {
+  id: number;
+  name: string;
+  imei: string;
+  sold: boolean;
+  dateInStore: string;
+};
+export type Customer = {
+  id: number;
+  name: string;
+  phone: string;
+  account: string;
+  email: string;
+  package: string;
+  activationDate: string;
+  city: string;
+  county: string;
+};
 export const users: User[] = [
   {
     id: 1,
@@ -92,21 +110,14 @@ export const users: User[] = [
 ];
 
 export type Employee = {
-  id: number;
-  first_name: string;
-  last_name: string;
+  id: string;
+  name: string;
   email: string;
   phone: string;
   gender: string;
-  date_of_birth: string; // Consider using a proper date type if possible
-  street: string;
   city: string;
-  state: string;
-  country: string;
-  zipcode: string;
-  longitude?: number; // Optional field
-  latitude?: number; // Optional field
-  job: string;
+  position: string;
+  department: string;
   profile_picture?: string | null; // Profile picture can be a string (URL) or null (if no picture)
 };
 
@@ -116,6 +127,12 @@ export const navItems: NavItem[] = [
     href: '/dashboard',
     icon: 'dashboard',
     label: 'Dashboard'
+  },
+  {
+    title: 'Customers',
+    href: '/dashboard/customer',
+    icon: 'customers',
+    label: 'customers'
   },
   {
     title: 'Inventory',

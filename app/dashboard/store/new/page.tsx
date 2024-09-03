@@ -1,5 +1,4 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { ProductForm } from '@/components/forms/product-form';
 import { RouterForm } from '@/components/forms/router-form';
 import PageContainer from '@/components/layout/page-container';
 import React from 'react';

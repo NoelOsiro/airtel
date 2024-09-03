@@ -1,30 +1,23 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import PageContainer from '@/components/layout/page-container';
-import { RouterClient } from '@/components/tables/router-tables/client';
-import { Router } from '@/constants/data';
+import { CustomerClient } from '@/components/tables/customer-tables/client';
+import { Customer } from '@/constants/data';
 import { createClient } from '@/uitls/supabase/server';
 
 const breadcrumbItems = [
   { title: 'Dashboard', link: '/dashboard' },
-  { title: 'Inventory', link: '/dashboard/store' }
+  { title: 'Customer', link: '/dashboard/customer' }
 ];
 
 export default async function page() {
   const supabase = createClient();
-  const { data: routers = [], error } = await supabase
-    .from('routers')
-    .select('*');
-
-  if (error) {
-    console.error('Error fetching routers:', error);
-    // Handle the error accordingly (e.g., show an error message to the user)
-  }
+  const { data: customers = [] } = await supabase.from('customers').select('*');
 
   return (
     <PageContainer>
       <div className="space-y-2">
         <Breadcrumbs items={breadcrumbItems} />
-        <RouterClient data={routers as Router[]} />
+        <CustomerClient data={customers as Customer[]} />
       </div>
     </PageContainer>
   );
