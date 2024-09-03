@@ -9,7 +9,6 @@ class CustomError extends Error {
     this.statusCode = statusCode;
   }
 }
-
 class BadRequestError extends CustomError {
   constructor(message: string) {
     super(message, 400);
@@ -33,18 +32,36 @@ export async function POST(req: NextRequest) {
 
   try {
     // Parse the incoming request body
-    const { name, imei, dateInStore, sold } = await req.json();
+    const {
+      name,
+      email,
+      phone,
+      county,
+      city,
+      account,
+      activationDate,
+      packageName
+    } = await req.json();
 
     // Validate required fields
-    if (!name || !imei || !dateInStore) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !county ||
+      !city ||
+      !account ||
+      !activationDate ||
+      !packageName
+    ) {
       throw new BadRequestError('Missing required fields');
     }
 
-    // Check if the IMEI already exists
-    const { data: existingRouter, error: checkError } = await supabase
-      .from('routers')
+    // Check if the Account already exists
+    const { data: existingAccount, error: checkError } = await supabase
+      .from('customers')
       .select('*')
-      .eq('imei', imei)
+      .eq('account', account)
       .single();
 
     if (checkError) {
@@ -55,27 +72,28 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    if (existingRouter) {
-      throw new ConflictError('IMEI already exists');
+    if (existingAccount) {
+      throw new ConflictError('Account Number already exists');
     }
 
-    // Insert the new router data
-    const { data, error: insertError } = await supabase
-      .from('routers')
+    const { data, error: getError } = await supabase
+      .from('customers')
       .insert({
         name,
-        imei,
-        dateInStore,
-        sold
+        email,
+        phone,
+        county,
+        city,
+        account,
+        activationDate,
+        package: packageName
       })
       .select();
 
-    if (insertError) {
-      throw new InternalServerError('Failed to insert new router');
+    if (getError) {
+      throw new InternalServerError('Failed to add customer data');
     }
-
-    // Respond with the inserted data
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
     // Handle different types of errors
     if (error instanceof CustomError) {

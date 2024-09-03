@@ -25,14 +25,14 @@ export async function GET(req: NextRequest) {
     let data, getError;
 
     if (id) {
-      // Fetch a specific staff if ID is provided
+      // Fetch a specific router if ID is provided
       ({ data, error: getError } = await supabase
-        .from('staff')
+        .from('routers')
         .select('*')
         .eq('id', id));
     } else {
-      // Fetch all staff if no ID is provided
-      ({ data, error: getError } = await supabase.from('staff').select('*'));
+      // Fetch all routers if no ID is provided
+      ({ data, error: getError } = await supabase.from('routers').select('*'));
     }
 
     if (getError) {

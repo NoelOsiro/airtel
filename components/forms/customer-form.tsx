@@ -28,6 +28,7 @@ import {
 import { useToast } from '../ui/use-toast';
 import { AlertModal } from '../modal/alert-modal';
 import { Customer } from '@/constants/data';
+import axios from 'axios';
 // import FileUpload from '../file-upload';
 
 const formSchema = z.object({
@@ -99,26 +100,36 @@ export const CustomerForm: React.FC<ProductFormProps> = ({
   });
 
   const onSubmit = async (data: ProductFormValues) => {
+    const apiUrl =
+      `${process.env.NEXT_PUBLIC_API_URL}/customers` ||
+      'http://localhost:3000/api/customers';
     try {
       setLoading(true);
       if (initialData) {
-        // await axios.post(`/api/products/edit-product/${initialData._id}`, data);
+        await axios.post(`${apiUrl}/edit-customer?${initialData.id}`, {
+          ...data,
+          packageName: data.package
+        });
       } else {
-        // const res = await axios.post(`/api/products/create-product`, data);
-        // console.log("product", res);
+        await axios.post(`${apiUrl}/create-customer`, {
+          ...data,
+          packageName: data.package
+        });
       }
       router.refresh();
-      router.push(`/dashboard/products`);
+      router.push(`/dashboard/customers`);
       toast({
-        variant: 'destructive',
-        title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+        variant: 'default', // Success message
+        title: 'Success!',
+        description: toastMessage
       });
     } catch (error: any) {
       toast({
-        variant: 'destructive',
+        variant: 'destructive', // Error message
         title: 'Uh oh! Something went wrong.',
-        description: 'There was a problem with your request.'
+        description:
+          error?.response?.data?.message ||
+          'There was a problem with your request.'
       });
     } finally {
       setLoading(false);

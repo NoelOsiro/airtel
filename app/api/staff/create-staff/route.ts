@@ -33,45 +33,57 @@ export async function POST(req: NextRequest) {
 
   try {
     // Parse the incoming request body
-    const { name, imei, dateInStore, sold } = await req.json();
+    const { name, email, phone, position, department, city, gender } =
+      await req.json();
 
     // Validate required fields
-    if (!name || !imei || !dateInStore) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !position ||
+      !department ||
+      !city ||
+      !gender
+    ) {
       throw new BadRequestError('Missing required fields');
     }
 
     // Check if the IMEI already exists
     const { data: existingRouter, error: checkError } = await supabase
-      .from('routers')
+      .from('staff')
       .select('*')
-      .eq('imei', imei)
+      .eq('name', name)
       .single();
 
     if (checkError) {
       if (checkError.code === 'PGRST116') {
         // No existing router found, continue
       } else {
-        throw new InternalServerError('Error checking existing IMEI');
+        throw new InternalServerError('Error checking existing Staff');
       }
     }
 
     if (existingRouter) {
-      throw new ConflictError('IMEI already exists');
+      throw new ConflictError('Staff already exists');
     }
 
     // Insert the new router data
     const { data, error: insertError } = await supabase
-      .from('routers')
+      .from('staff')
       .insert({
         name,
-        imei,
-        dateInStore,
-        sold
+        email,
+        phone,
+        position,
+        department,
+        city,
+        gender
       })
       .select();
 
     if (insertError) {
-      throw new InternalServerError('Failed to insert new router');
+      throw new InternalServerError('Failed to insert new staff');
     }
 
     // Respond with the inserted data

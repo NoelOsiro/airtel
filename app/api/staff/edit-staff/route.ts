@@ -9,16 +9,9 @@ class CustomError extends Error {
     this.statusCode = statusCode;
   }
 }
-
 class BadRequestError extends CustomError {
   constructor(message: string) {
     super(message, 400);
-  }
-}
-
-class ConflictError extends CustomError {
-  constructor(message: string) {
-    super(message, 409);
   }
 }
 
@@ -30,52 +23,45 @@ class InternalServerError extends CustomError {
 
 export async function POST(req: NextRequest) {
   const supabase = createClient();
+  const { searchParams } = new URL(req.url);
+  const id = searchParams.get('id');
 
   try {
     // Parse the incoming request body
-    const { name, imei, dateInStore, sold } = await req.json();
+    const { name, email, phone, position, department, city, gender } =
+      await req.json();
 
     // Validate required fields
-    if (!name || !imei || !dateInStore) {
+    if (
+      !name ||
+      !email ||
+      !phone ||
+      !position ||
+      !department ||
+      !city ||
+      !gender
+    ) {
       throw new BadRequestError('Missing required fields');
     }
 
-    // Check if the IMEI already exists
-    const { data: existingRouter, error: checkError } = await supabase
-      .from('routers')
-      .select('*')
-      .eq('imei', imei)
-      .single();
-
-    if (checkError) {
-      if (checkError.code === 'PGRST116') {
-        // No existing router found, continue
-      } else {
-        throw new InternalServerError('Error checking existing IMEI');
-      }
-    }
-
-    if (existingRouter) {
-      throw new ConflictError('IMEI already exists');
-    }
-
-    // Insert the new router data
-    const { data, error: insertError } = await supabase
-      .from('routers')
-      .insert({
+    const { data, error: getError } = await supabase
+      .from('staff')
+      .update({
         name,
-        imei,
-        dateInStore,
-        sold
+        email,
+        phone,
+        position,
+        department,
+        city,
+        gender
       })
+      .eq('id', id)
       .select();
 
-    if (insertError) {
-      throw new InternalServerError('Failed to insert new router');
+    if (getError) {
+      throw new InternalServerError('Failed to update data');
     }
-
-    // Respond with the inserted data
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error: any) {
     // Handle different types of errors
     if (error instanceof CustomError) {
