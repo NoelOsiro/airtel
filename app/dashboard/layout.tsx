@@ -1,3 +1,4 @@
+import Footer from '@/components/layout/footer';
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
 import type { Metadata } from 'next';
@@ -18,6 +19,7 @@ export default function DashboardLayout({
       <main className="w-full flex-1 overflow-hidden">
         <Header />
         {children}
+        <Footer />
       </main>
     </div>
   );
