@@ -15,24 +15,44 @@ export default async function Page({ params }: { params: { id: string } }) {
   const apiUrl =
     `${process.env.NEXT_PUBLIC_API_URL}/customers?id=${id}` ||
     `http://localhost:3000/api/customers?id=${id}`;
-  const customerData: Customer[] = await axios
-    .get(apiUrl)
-    .then((res) => res.data)
-    .catch(() => null); // Handle errors if any
-  return (
-    <PageContainer scrollable={true}>
-      <div className="space-y-4">
-        <Breadcrumbs items={breadcrumbItems} />
-        <CustomerForm
-          categories={[
-            { _id: '3500', name: '3500' },
-            { _id: '5500', name: '5500' },
-            { _id: '7500', name: '7500' }
-          ]}
-          initialData={customerData[0]}
-          key={null}
-        />
-      </div>
-    </PageContainer>
-  );
+
+  if (id === 'new') {
+    return (
+      <PageContainer scrollable={true}>
+        <div className="space-y-4">
+          <Breadcrumbs items={breadcrumbItems} />
+          <CustomerForm
+            categories={[
+              { _id: '3500', name: '3500' },
+              { _id: '5500', name: '5500' },
+              { _id: '7500', name: '7500' }
+            ]}
+            initialData={null}
+            key={null}
+          />
+        </div>
+      </PageContainer>
+    );
+  } else {
+    const customerData: Customer[] = await axios
+      .get(apiUrl)
+      .then((res) => res.data)
+      .catch(() => null); // Handle errors if any
+    return (
+      <PageContainer scrollable={true}>
+        <div className="space-y-4">
+          <Breadcrumbs items={breadcrumbItems} />
+          <CustomerForm
+            categories={[
+              { _id: '3500', name: '3500' },
+              { _id: '5500', name: '5500' },
+              { _id: '7500', name: '7500' }
+            ]}
+            initialData={customerData ? customerData[0] : null}
+            key={null}
+          />
+        </div>
+      </PageContainer>
+    );
+  }
 }

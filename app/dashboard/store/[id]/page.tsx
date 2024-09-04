@@ -15,16 +15,30 @@ export default async function Page({ params }: { params: { id: string } }) {
   const apiUrl =
     `${process.env.NEXT_PUBLIC_API_URL}/routers?id=${id}` ||
     `http://localhost:3000/api/routers?id=${id}`;
-  const routerData: Router[] = await axios
-    .get(apiUrl)
-    .then((res) => res.data)
-    .catch(() => null); // Handle errors if any
-  return (
-    <PageContainer scrollable={true}>
-      <div className="space-y-4">
-        <Breadcrumbs items={breadcrumbItems} />
-        <RouterForm initialData={routerData[0]} key={null} />
-      </div>
-    </PageContainer>
-  );
+  if (id === 'new') {
+    return (
+      <PageContainer scrollable={true}>
+        <div className="space-y-4">
+          <Breadcrumbs items={breadcrumbItems} />
+          <RouterForm initialData={null} key={null} />
+        </div>
+      </PageContainer>
+    );
+  } else {
+    const routerData: Router[] = await axios
+      .get(apiUrl)
+      .then((res) => res.data)
+      .catch(() => null); // Handle errors if any
+    return (
+      <PageContainer scrollable={true}>
+        <div className="space-y-4">
+          <Breadcrumbs items={breadcrumbItems} />
+          <RouterForm
+            initialData={routerData ? routerData[0] : null}
+            key={null}
+          />
+        </div>
+      </PageContainer>
+    );
+  }
 }
