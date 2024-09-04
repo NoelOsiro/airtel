@@ -72,19 +72,19 @@ export function AreaGraph() {
               content={<ChartTooltipContent indicator="dot" />}
             />
             <Area
-              dataKey="mobile"
+              dataKey="malindi"
               type="natural"
-              fill="var(--color-mobile)"
+              fill="var(--color-malindi)"
               fillOpacity={0.4}
-              stroke="var(--color-mobile)"
+              stroke="var(--color-malindi)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="kilifi"
               type="natural"
-              fill="var(--color-desktop)"
+              fill="var(--color-kilifi)"
               fillOpacity={0.4}
-              stroke="var(--color-desktop)"
+              stroke="var(--color-kilifi)"
               stackId="a"
             />
           </AreaChart>
