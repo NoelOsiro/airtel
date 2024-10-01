@@ -17,34 +17,21 @@ const TotalRevenue = () => {
   useEffect(() => {
     const fetchRevenueData = async () => {
       try {
-        const today = new Date();
-        const currentMonthStart = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          6
-        );
-        const previousMonthStart = new Date(
-          today.getFullYear(),
-          today.getMonth() - 1,
-          6
-        );
-
         const { data: currentData, error: currentError } = await supabase
           .from('total_revenue')
           .select('monthly_revenue')
-          .eq('month_start', currentMonthStart.toISOString().split('T')[0])
+          .eq('month_start', '2024-09-05')
           .single();
 
         const { data: previousData, error: previousError } = await supabase
           .from('total_revenue')
           .select('monthly_revenue')
-          .eq('month_start', previousMonthStart.toISOString().split('T')[0])
+          .eq('month_start', '2024-09-05')
           .single();
 
         if (currentError || previousError) {
           throw new Error(currentError?.message || previousError?.message);
         }
-
         const currentRevenue = currentData ? currentData.monthly_revenue : 0;
         const previousRevenue = previousData ? previousData.monthly_revenue : 0;
 

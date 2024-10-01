@@ -17,28 +17,16 @@ const TotalSales = () => {
   useEffect(() => {
     const fetchSubscriptionData = async () => {
       try {
-        const today = new Date();
-        const currentMonthStart = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          6
-        );
-        const previousMonthStart = new Date(
-          today.getFullYear(),
-          today.getMonth() - 1,
-          6
-        );
-
         const { data: currentData, error: currentError } = await supabase
           .from('total_revenue') // Assuming you're storing subscriptions in the same table
           .select('subscriptions')
-          .eq('month_start', currentMonthStart.toISOString().split('T')[0])
+          .eq('month_start', '2024-08-05')
           .single();
 
         const { data: previousData, error: previousError } = await supabase
           .from('total_revenue') // Assuming you're storing subscriptions in the same table
           .select('subscriptions')
-          .eq('month_start', previousMonthStart.toISOString().split('T')[0])
+          .eq('month_start', '2024-08-05')
           .single();
 
         if (currentError || previousError) {
