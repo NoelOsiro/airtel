@@ -11,6 +11,77 @@
 <span>
 </div>
 
+## Architecture
+
+This application utilizes Supabase as a backend-as-a-Service (BaaS) solution, providing a powerful and scalable backend for various features. Supabase offers authentication, storage, database, and real-time capabilities, streamlining development and simplifying backend management.
+
+Key Components and Interactions:
+
+### Frontend (Next.js)
+
+Handles user interface rendering and interactions.
+Makes API calls to Supabase for authentication, data retrieval, and updates.
+Uses Shadcn-ui for components, Zustand for state management, and other libraries as mentioned in the Overview.
+Supabase:
+
+#### Authentication
+
+Provides authentication mechanisms like email/password, social logins, and more.
+
+#### Storage
+
+Offers storage for files and media, integrated with Uploadthing for easy file handling.
+
+#### Database
+
+Manages data using a PostgreSQL database with a robust schema.
+
+#### Real-time
+
+Enables real-time updates and communication between the frontend and backend.
+
+#### API Routes
+
+Defined in app/api directory.
+Handle API requests from the frontend.
+Interact with Supabase to perform authentication, data operations, and other backend logic.
+Data Flow and Interactions:
+User Authentication:
+
+#### Frontend makes authentication requests to Supabase API
+
+Supabase handles authentication and returns tokens.
+Frontend stores tokens for subsequent requests.
+Data Retrieval:
+
+#### Frontend makes API requests to fetch data from Supabase
+
+API routes query the Supabase database and return data.
+Frontend renders data using components and state management.
+Data Updates:
+
+#### Frontend sends updated data to Supabase API
+
+API routes validate and update the data in the Supabase database.
+Frontend updates its state based on the response.
+Real-time Updates:
+
+#### Supabase provides real-time subscriptions for data changes
+
+Frontend can subscribe to relevant data and receive updates in real-time.
+API Endpoints:
+Authentication:
+/api/auth/signin
+/api/auth/signup
+/api/auth/signout
+/api/auth/session
+Data Operations:
+/api/customers (CRUD operations for customers)
+/api/employees (CRUD operations for employees)
+/api/profile (Update user profile)
+/api/kanban (Kanban board operations)
+// Add more endpoints as needed
+
 ## Overview
 
 This is a starter template using the following stack:
@@ -54,4 +125,4 @@ Follow these steps to clone the repository and start the development server:
 - Add the required environment variables to the `.env.local` file.
 - `npm run dev`
 
-You should now be able to access the application at http://localhost:3000.
+You should now be able to access the application at <http://localhost:3000>.
