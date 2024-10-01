@@ -2,14 +2,16 @@
 
 
 
-<h1 align="center"><strong>Company Admin Dashboard Starter Template With Shadcn-ui</strong></h1>
+<h1 align="center"><strong>Company Admin Dashboard With Shadcn-ui</strong></h1>
 <div align="center">Built by Noel Osiro</div>
 <br />
 <div align="center">
 <a href="https://airtel-pearl.vercel.app">View Demo</a>
 <span>
 </div>
+  
 ![image](https://github.com/user-attachments/assets/c3b28790-197f-4457-ac03-3fa9c1d869ee)
+  
 ## Overview
 
 This is a starter template using the following stack:
